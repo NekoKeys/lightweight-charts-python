@@ -11,7 +11,8 @@ from .topbar import TopBar
 from .util import (
     IDGen, jbool, Pane, Events, TIME, NUM, FLOAT,
     LINE_STYLE, MARKER_POSITION, MARKER_SHAPE, CROSSHAIR_MODE, PRICE_SCALE_MODE,
-    line_style, marker_position, marker_shape, crosshair_mode, price_scale_mode, js_data,
+    line_style, marker_position, marker_shape, crosshair_mode, price_scale_mode, js_data, WATERMARK_ALIGN_VERT,
+    WATERMARK_ALIGN_HORZ,
 )
 
 JS = {}
@@ -846,7 +847,8 @@ class AbstractChart(Candlestick, Pane):
 
     def time_scale(self, right_offset: int = 0, min_bar_spacing: float = 0.5,
                    visible: bool = True, time_visible: bool = True, seconds_visible: bool = False,
-                   border_visible: bool = True, border_color: str = None):
+                   border_visible: bool = True, border_color: str = None, bar_spacing: int = 6,
+                   fix_left_edge: bool = False, fix_right_edge: bool = False):
         """
         Options for the timescale of the chart.
         """
@@ -859,6 +861,9 @@ class AbstractChart(Candlestick, Pane):
                        timeVisible: {jbool(time_visible)},
                        secondsVisible: {jbool(seconds_visible)},
                        borderVisible: {jbool(border_visible)},
+                       barSpacing: {bar_spacing},
+                       fixLeftEdge: {jbool(fix_left_edge)},
+                       fixRightEdge: {jbool(fix_right_edge)},
                        {f'borderColor: "{border_color}",' if border_color else ''}
                    }}
                }})''')
@@ -927,7 +932,8 @@ class AbstractChart(Candlestick, Pane):
                 }}
             }}}})''')
 
-    def watermark(self, text: str, font_size: int = 44, color: str = 'rgba(180, 180, 200, 0.5)'):
+    def watermark(self, text: str, font_size: int = 44, color: str = 'rgba(180, 180, 200, 0.5)',
+                  horz_align: WATERMARK_ALIGN_HORZ = 'center', vert_align: WATERMARK_ALIGN_VERT = 'center'):
         """
         Adds a watermark to the chart.
         """
@@ -936,8 +942,8 @@ class AbstractChart(Candlestick, Pane):
               watermark: {{
                   visible: true,
                   fontSize: {font_size},
-                  horzAlign: 'center',
-                  vertAlign: 'center',
+                  horzAlign: {horz_align},
+                  vertAlign: {vert_align},
                   color: '{color}',
                   text: '{text}',
               }}

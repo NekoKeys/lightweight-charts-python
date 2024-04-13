@@ -57,6 +57,10 @@ CROSSHAIR_MODE = Literal['normal', 'magnet']
 
 PRICE_SCALE_MODE = Literal['normal', 'logarithmic', 'percentage', 'index100']
 
+WATERMARK_ALIGN_HORZ = Literal['left', 'center', 'right']
+
+WATERMARK_ALIGN_VERT = Literal['top', 'center', 'bottom']
+
 TIME = Union[datetime, pd.Timestamp, str]
 
 NUM = Union[float, int]
